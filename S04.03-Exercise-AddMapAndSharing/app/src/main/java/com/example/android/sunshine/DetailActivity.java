@@ -2,7 +2,10 @@ package com.example.android.sunshine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class DetailActivity extends AppCompatActivity {
@@ -29,6 +32,27 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    // TODO (3) Create a menu with an item with id of action_share
-    // TODO (4) Display the menu and implement the forecast sharing functionality
+    // (3) Create a menu with an item with id of action_share
+    // (4) Display the menu and implement the forecast sharing functionality
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail, menu);
+        return true;
+//        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (R.id.action_share == item.getItemId()) {
+            ShareCompat.IntentBuilder
+                    .from(this)
+                    .setChooserTitle("How would you like to share?")
+                    .setType("text/plain")
+                    .setText(mForecast)
+                    .startChooser();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
