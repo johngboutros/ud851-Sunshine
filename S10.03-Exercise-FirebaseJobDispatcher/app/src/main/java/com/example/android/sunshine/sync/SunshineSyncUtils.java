@@ -35,8 +35,8 @@ import java.util.concurrent.TimeUnit;
 public class SunshineSyncUtils {
 
 //  (10) Add constant values to sync Sunshine every 3 - 4 hours
-    private static int MIN_SYNC_START_TIME = (int) TimeUnit.MINUTES.toSeconds(3);
-    private static int MARGIN_SYNC_START_TIME = (int) TimeUnit.MINUTES.toSeconds(1);
+    private static int MIN_SYNC_START_TIME = (int) TimeUnit.HOURS.toSeconds(3);
+    private static int MARGIN_SYNC_START_TIME = (int) TimeUnit.HOURS.toSeconds(1);
 
     private static boolean sInitialized;
 
