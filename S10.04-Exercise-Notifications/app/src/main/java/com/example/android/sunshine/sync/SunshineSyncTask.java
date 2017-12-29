@@ -18,14 +18,24 @@ package com.example.android.sunshine.sync;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.format.DateUtils;
 
+import com.example.android.sunshine.R;
+import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.data.WeatherContract;
 import com.example.android.sunshine.utilities.NetworkUtils;
+import com.example.android.sunshine.utilities.NotificationUtils;
 import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
 import java.net.URL;
 
 public class SunshineSyncTask {
+
+    // JB: TIME_TO_WAIT_BETWEEN_NOTIFICATIONS_IN_SECONDS
+    private static final long TIME_TO_WAIT_BETWEEN_NOTIFICATIONS_IN_SECONDS = DateUtils.DAY_IN_MILLIS;
+
 
     /**
      * Performs the network request for updated weather, parses the JSON from that request, and
@@ -73,12 +83,22 @@ public class SunshineSyncTask {
                         WeatherContract.WeatherEntry.CONTENT_URI,
                         weatherValues);
 
-//              TODO (13) Check if notifications are enabled
+                // (13) Check if notifications are enabled
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean notificationsEnabled = sharedPreferences.getBoolean(context.getString(R.string.pref_enable_notifications_key),
+                        context.getResources().getBoolean(R.bool.pref_show_notification_default));
 
-//              TODO (14) Check if a day has passed since the last notification
+                if (notificationsEnabled) {
+                    // (14) Check if a day has passed since the last notification
+                    long ellapsedTimeSinceLastNotification = SunshinePreferences.getEllapsedTimeSinceLastNotification(context);
 
-//              TODO (15) If more than a day have passed and notifications are enabled, notify the user
-
+                    // (15) If more than a day have passed and notifications are enabled, notify the user
+                    if (ellapsedTimeSinceLastNotification >
+                            TIME_TO_WAIT_BETWEEN_NOTIFICATIONS_IN_SECONDS) {
+                        NotificationUtils.notifyUserOfNewWeather(context);
+                    }
+                }
             /* If the code reaches this point, we have successfully performed our sync */
 
             }

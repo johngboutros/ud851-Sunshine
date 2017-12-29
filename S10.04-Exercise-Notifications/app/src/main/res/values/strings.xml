@@ -228,4 +228,7 @@
         Low:<xliff:g id="low">%3$s</xliff:g>
     </string>
 
+    <!--JB:-->
+    <string name="main_notification_channel_name">Main</string>
+
 </resources>
