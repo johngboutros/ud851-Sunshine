@@ -23,10 +23,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.sunshine.utilities.SunshineDateUtils;
 import com.example.android.sunshine.utilities.SunshineWeatherUtils;
+
+import java.util.List;
 
 /**
  * {@link ForecastAdapter} exposes a list of weather forecasts
@@ -34,13 +37,15 @@ import com.example.android.sunshine.utilities.SunshineWeatherUtils;
  */
 class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapterViewHolder> {
 
-//  TODO (1) Add a layout called list_item_forecast_today
-//  TODO (2) Using ConstraintLayout, implement the today list item layout
+//  (1) Add a layout called list_item_forecast_today
+//  (2) Using ConstraintLayout, implement the today list item layout
 
-//  TODO (4) Create a resources file called bools.xml within the res/values-port directory
-//  TODO (5) Within bools.xml in the portrait specific directory, add a bool called use_today_layout and set it to false
+//  (4) Create a resources file called bools.xml within the res/values-port directory
+//  (5) Within bools.xml in the portrait specific directory, add a bool called use_today_layout and set it to false
 
-//  TODO (6) Declare constant IDs for the ViewType for today and for a future day
+//  (6) Declare constant IDs for the ViewType for today and for a future day
+    private static final int TODAY_ITEM_TYPE_ID = 0;
+    private static final int FUTURE_DAY_ITEM_TYPE_ID = 1;
 
     /* The context we use to utility methods, app resources and layout inflaters */
     private final Context mContext;
@@ -66,7 +71,8 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
      * is in landscape. This flag will be set in the constructor of the adapter by accessing
      * boolean resources.
      */
-//  TODO (7) Declare a private boolean called mUseTodayLayout
+//  (7) Declare a private boolean called mUseTodayLayout
+    private boolean mUseTodayLayout;
 
     private Cursor mCursor;
 
@@ -80,7 +86,8 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
     public ForecastAdapter(@NonNull Context context, ForecastAdapterOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
-//      TODO (8) Set mUseTodayLayout to the value specified in resources
+//      (8) Set mUseTodayLayout to the value specified in resources
+        mUseTodayLayout = context.getResources().getBoolean(R.bool.use_today_layout);
     }
 
     /**
@@ -97,15 +104,21 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
     @Override
     public ForecastAdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-//      TODO (12) If the view type of the layout is today, use today layout
-
-//      TODO (13) If the view type of the layout is future day, use future day layout
-
-//      TODO (14) Otherwise, throw an IllegalArgumentException
+        int layoutId = 0;
+        if (TODAY_ITEM_TYPE_ID == viewType) {
+            // (12) If the view type of the layout is today, use today layout
+            layoutId = R.layout.list_item_forecast_today;
+        } else if (FUTURE_DAY_ITEM_TYPE_ID == viewType) {
+            // (13) If the view type of the layout is future day, use future day layout
+            layoutId = R.layout.forecast_list_item;
+        } else {
+            // (14) Otherwise, throw an IllegalArgumentException
+            throw new IllegalArgumentException("invalid viewType: " + viewType);
+        }
 
         View view = LayoutInflater
                 .from(mContext)
-                .inflate(R.layout.forecast_list_item, viewGroup, false);
+                .inflate(layoutId, viewGroup, false);
 
         return new ForecastAdapterViewHolder(view);
     }
@@ -130,14 +143,22 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
         int weatherId = mCursor.getInt(MainActivity.INDEX_WEATHER_CONDITION_ID);
         int weatherImageId;
 
-//      TODO (15) If the view type of the layout is today, display a large icon
+        int itemViewType = getItemViewType(position);
+        if (TODAY_ITEM_TYPE_ID == itemViewType) {
+            // (15) If the view type of the layout is today, display a large icon
+            weatherImageId = SunshineWeatherUtils
+                    .getLargeArtResourceIdForWeatherCondition(weatherId);
+        } else if (FUTURE_DAY_ITEM_TYPE_ID == itemViewType) {
+            // (16) If the view type of the layout is future day, display a small icon
+            weatherImageId = SunshineWeatherUtils
+                    .getSmallArtResourceIdForWeatherCondition(weatherId);
+        } else {
+            // (17) Otherwise, throw an IllegalArgumentException
+            throw new IllegalArgumentException("invalid viewType: " + itemViewType);
+        }
 
-//      TODO (16) If the view type of the layout is future day, display a small icon
-
-//      TODO (17) Otherwise, throw an IllegalArgumentException
-
-        weatherImageId = SunshineWeatherUtils
-                .getSmallArtResourceIdForWeatherCondition(weatherId);
+//        weatherImageId = SunshineWeatherUtils
+//                .getSmallArtResourceIdForWeatherCondition(weatherId);
 
         forecastAdapterViewHolder.iconView.setImageResource(weatherImageId);
 
@@ -211,9 +232,59 @@ class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ForecastAdapt
         return mCursor.getCount();
     }
 
-//  TODO (9) Override getItemViewType
-//      TODO (10) Within getItemViewType, if mUseTodayLayout is true and position is 0, return the ID for today viewType
-//      TODO (11) Otherwise, return the ID for future day viewType
+//  (9) Override getItemViewType
+
+    /**
+     * Called by RecyclerView to display the data at the specified position. This method
+     * should update the contents of the {@link ViewHolder#itemView} to reflect the item at
+     * the given position.
+     * <p>
+     * Note that unlike {@link ListView}, RecyclerView will not call this method
+     * again if the position of the item changes in the data set unless the item itself is
+     * invalidated or the new position cannot be determined. For this reason, you should only
+     * use the <code>position</code> parameter while acquiring the related data item inside
+     * this method and should not keep a copy of it. If you need the position of an item later
+     * on (e.g. in a click listener), use {@link ViewHolder#getAdapterPosition()} which will
+     * have the updated adapter position.
+     * <p>
+     * Partial bind vs full bind:
+     * <p>
+     * The payloads parameter is a merge list from {@link #notifyItemChanged(int, Object)} or
+     * {@link #notifyItemRangeChanged(int, int, Object)}.  If the payloads list is not empty,
+     * the ViewHolder is currently bound to old data and Adapter may run an efficient partial
+     * update using the payload info.  If the payload is empty,  Adapter must run a full bind.
+     * Adapter should not assume that the payload passed in notify methods will be received by
+     * onBindViewHolder().  For example when the view is not attached to the screen, the
+     * payload in notifyItemChange() will be simply dropped.
+     *
+     * @param holder   The ViewHolder which should be updated to represent the contents of the
+     *                 item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     * @param payloads A non-null list of merged payloads. Can be empty list if requires full
+     */
+    @Override
+    public void onBindViewHolder(ForecastAdapterViewHolder holder, int position, List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+    }
+
+    /**
+     * Return the view type of the item at <code>position</code> for the purposes
+     * of view recycling.
+     * <p>
+     * <p>The default implementation of this method returns 0, making the assumption of
+     * a single view type for the adapter. Unlike ListView adapters, types need not
+     * be contiguous. Consider using id resources to uniquely identify item view types.
+     *
+     * @param position position to query
+     * @return integer value identifying the type of the view needed to represent the item at
+     * <code>position</code>. Type codes need not be contiguous.
+     */
+    @Override
+    public int getItemViewType(int position) {
+//      (10) Within getItemViewType, if mUseTodayLayout is true and position is 0, return the ID for today viewType
+//      (11) Otherwise, return the ID for future day viewType
+        return position == 0 && mUseTodayLayout ? TODAY_ITEM_TYPE_ID : FUTURE_DAY_ITEM_TYPE_ID;
+    }
 
     /**
      * Swaps the cursor used by the ForecastAdapter for its weather data. This method is called by
