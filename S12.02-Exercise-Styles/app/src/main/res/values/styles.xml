@@ -25,15 +25,15 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
-    <!-- TODO (1) Create a style that shows a Sunshine logo instead of a title -->
+    <!-- (1) Create a style that shows a Sunshine logo instead of a title -->
     <style name="ActionBar.Solid.Sunshine.NoTitle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:logo">@drawable/ic_logo</item>
-        <item name="android:displayOptions">useLogo|showHome</item>
+        <item name="displayOptions">useLogo|showHome</item>
+        <item name="logo">@drawable/ic_logo</item>
     </style>
 
     <!-- (2) Create a style for MainActivity called AppTheme.Forecast that uses our custom ActionBar style -->
     <style name="AppTheme.Forecast" parent="@style/AppTheme">
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Sunshine.NoTitle</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Sunshine.NoTitle</item>
     </style>
 
     <!-- (3) Create the DetailLabel style -->
