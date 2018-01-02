@@ -15,10 +15,33 @@
      limitations under the License.
 -->
 <resources>
-    <!-- TODO (1) Add each of the colors required by Sunshine -->
+    <!-- (1) Add each of the colors required by Sunshine -->
+    <!--colorPrimary	#03A9F4-->
+    <color name="colorPrimary">#03A9F4</color>
+    <!--colorPrimaryDark	#0288D1-->
+    <color name="colorPrimaryDark">#0288D1</color>
+    <!--colorAccent	#FFD740-->
+    <color name="colorAccent">#FFD740</color>
+    <!--colorPrimaryLight	#B3E5FC-->
+    <color name="colorPrimaryLight">#B3E5FC</color>
+    <!--white	#FFFFFF-->
+    <color name="white">#FFFFFF</color>
 
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--primary_text	#212121-->
+    <color name="primary_text">#212121</color>
+    <!--secondary_text	#727272-->
+    <color name="secondary_text">#727272</color>
+    <!--detail_accent_pane_background	#455A64-->
+    <color name="detail_accent_pane_background">#455A64</color>
+    <!--detail_accent_label	#90A4AE-->
+    <color name="detail_accent_label">#90A4AE</color>
+    <!--activated	#E0E0E0-->
+    <color name="activated">#E0E0E0</color>
+
+
+
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
 
 </resources>

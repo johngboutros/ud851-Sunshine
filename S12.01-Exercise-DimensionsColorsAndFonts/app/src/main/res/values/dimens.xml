@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--forecast_detail_horizontal_padding	32dp-->
+    <dimen name="forecast_detail_horizontal_padding">32dp</dimen>
+    <!--forecast_detail_vertical_padding	16dp-->
+    <dimen name="forecast_detail_vertical_padding">16dp</dimen>
+    <!--today_icon	96dp-->
+    <dimen name="today_icon">96dp</dimen>
+    <!--list_icon	40dp-->
+    <dimen name="list_icon">40dp</dimen>
+    <!--forecast_text_size	28dp-->
+    <dimen name="forecast_text_size">28dp</dimen>
+    <!--forecast_temperature_space	4dp-->
+    <dimen name="forecast_temperature_space">4dp</dimen>
+    <!--today_forecast_list_item_vertical_padding	16dp-->
+    <dimen name="today_forecast_list_item_vertical_padding">16dp</dimen>
+    <!--list_item_icon_margin_right	24dp-->
+    <dimen name="list_item_icon_margin_right">24dp</dimen>
+    <!--list_item_icon_margin_end	@dimen/list_item_icon_margin_right-->
+    <dimen name="list_item_icon_margin_end">@dimen/list_item_icon_margin_right</dimen>
+    <!--list_item_padding_horizontal	16dp-->
+    <dimen name="list_item_padding_horizontal">16dp</dimen>
+    <!--loading_indicator_size	42dp-->
+    <dimen name="loading_indicator_size">42dp</dimen>
+    <!--list_item_high_temperature_margin	12dp-->
+    <dimen name="list_item_high_temperature_margin">12dp</dimen>
+    <!--list_item_padding_vertical	12dp-->
+    <dimen name="list_item_padding_vertical">12dp</dimen>
+    <!--list_item_low_temperature_text_view_size	48dp-->
+    <dimen name="list_item_low_temperature_text_view_size">48dp</dimen>
+    <!--list_item_date_left_margin	16dp-->
+    <dimen name="list_item_date_left_margin">16dp</dimen>
+    <!--list_item_date_start_margin	@dimen/list_item_date_left_margin-->
+    <dimen name="list_item_date_start_margin">@dimen/list_item_date_left_margin</dimen>
+</resources>
